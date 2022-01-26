@@ -49,6 +49,20 @@ code {
   box-shadow: 0 0 10px rgb(110, 108, 216);
 }
 
+/* Styling the placeholder image */
+
+.placeholder-image {
+  margin-top: 80px;
+  width: 100px;
+  animation: rotation 12s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(360deg);
+  }
+}
+
 /* Styling the weather search result */
 
 .location {

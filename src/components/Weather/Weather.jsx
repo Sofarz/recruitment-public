@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
+import sun from '../../assets/sun.png';
 
 const Weather = () => {
 
-    let [location, setLocation] = useState();
+    let [location, setLocation] = useState('');
     let [currentWeather, setCurrentWeather] = useState({});
     const [errorMessage, setErrorMessage] = useState(false);
     
@@ -45,22 +46,33 @@ const Weather = () => {
                     Get Weather
                 </button>
             </form>
-            {errorMessage && <ErrorMessage />}
-            {!errorMessage &&
-            <div>
-                <h1 className="location">{currentWeather.name}</h1>
-                <p className="date">{new Date().toDateString()}</p>
-                <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
-                <div className="icon-description-container">
-                    <img 
-                        src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
-                        alt='weather icon' 
-                    />
-                    <h4 className="weather-description">
-                        {currentWeather.weather[0].description}
-                    </h4>  
+            {location === '' && 
+                <img 
+                    className="placeholder-image"
+                    src={sun}
+                    alt="sun" 
+                />
+            }
+            {location !== '' &&
+                <div>
+                    {errorMessage && <ErrorMessage />}
+                    {!errorMessage  &&
+                    <div>
+                        <h1 className="location">{currentWeather.name}</h1>
+                        <p className="date">{new Date().toDateString()}</p>
+                        <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
+                        <div className="icon-description-container">
+                            <img 
+                                src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
+                                alt='weather icon' 
+                            />
+                            <h4 className="weather-description">
+                                {currentWeather.weather[0].description}
+                            </h4>  
+                        </div>
+                    </div>
+                    }
                 </div>
-            </div>
             }
         </div>
     )
