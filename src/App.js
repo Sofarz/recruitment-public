@@ -11,7 +11,7 @@ function App() {
         <Weather/>
       </main>
       <footer>
-        © Kronans Apotek AB 2019
+        © Kronans Apotek AB 2022
       </footer>
     </div>
   );

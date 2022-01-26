@@ -1,39 +1,67 @@
 import React, { useState } from 'react';
-import classes from './Weather.css';
+import ErrorMessage from './ErrorMessage';
 
 const Weather = () => {
 
     let [location, setLocation] = useState();
     let [currentWeather, setCurrentWeather] = useState({});
+    const [errorMessage, setErrorMessage] = useState(false);
     
-    function getCurrentWeather(e) {
+    const getCurrentWeather = (e) => {
         e.preventDefault();
 
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a17480f70f0d4368ad0b5eabd0e37b66`, {
-            "method": "GET"            
-        })
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a17480f70f0d4368ad0b5eabd0e37b66`)
         .then(response => response.json())
-        .then(response => {
-            setCurrentWeather(response);    
-        });
+        .then(json => {
+            setCurrentWeather(json);
+            setErrorMessage(false);
+        })
+        .catch(() => {
+            setErrorMessage(true);
+        })
+        .finally(() => {
+            setLocation('');
+        })
     }
-
+    
     return (
         <div>
             <h2>How's the weather out there?</h2>
-            <form onSubmit={getCurrentWeather}>
+            <form 
+                className="form"
+                onSubmit={getCurrentWeather}>
                 <input
                     type="text"
                     placeholder="Enter City"
                     maxLength="50"
-                    className={classes.textInput}
+                    className="textInput"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    />                
-               
-                <button className={classes.Button} type="submit">Get Weather</button>
+                />                
+                <button 
+                    className="button" 
+                    type="submit"
+                >
+                    Get Weather
+                </button>
             </form>
-            <div><pre>{JSON.stringify(currentWeather, null, 2) }</pre></div>            
+            {errorMessage && <ErrorMessage />}
+            {!errorMessage &&
+            <div>
+                <h1 className="location">{currentWeather.name}</h1>
+                <p className="date">{new Date().toDateString()}</p>
+                <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
+                <div className="icon-description-container">
+                    <img 
+                        src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
+                        alt='weather icon' 
+                    />
+                    <h4 className="weather-description">
+                        {currentWeather.weather[0].description}
+                    </h4>  
+                </div>
+            </div>
+            }
         </div>
     )
 }
