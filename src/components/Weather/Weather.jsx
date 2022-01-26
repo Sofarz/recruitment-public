@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
-import sun from '../../assets/sun.png';
 
 const Weather = () => {
 
@@ -10,6 +9,10 @@ const Weather = () => {
     
     const getCurrentWeather = (e) => {
         e.preventDefault();
+
+        if (location.length === 0) {
+            return setErrorMessage(true)
+        }
 
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a17480f70f0d4368ad0b5eabd0e37b66`)
         .then(response => response.json())
@@ -46,34 +49,26 @@ const Weather = () => {
                     Get Weather
                 </button>
             </form>
-            {location === '' && 
-                <img 
-                    className="placeholder-image"
-                    src={sun}
-                    alt="sun" 
-                />
-            }
-            {location !== '' &&
+            <div>
+                {errorMessage && <ErrorMessage />}
+                {currentWeather.cod === 200 && !errorMessage ? 
                 <div>
-                    {errorMessage && <ErrorMessage />}
-                    {!errorMessage  &&
-                    <div>
-                        <h1 className="location">{currentWeather.name}</h1>
-                        <p className="date">{new Date().toDateString()}</p>
-                        <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
-                        <div className="icon-description-container">
-                            <img 
-                                src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
-                                alt='weather icon' 
-                            />
-                            <h4 className="weather-description">
-                                {currentWeather.weather[0].description}
-                            </h4>  
-                        </div>
+                <h1 className="location">{currentWeather.name}</h1>
+                    <p className="date">{new Date().toDateString()}</p>
+                    <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
+                    <div className="icon-description-container">
+                        <img 
+                            src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
+                            alt='weather icon' 
+                        />
+                        <h4 className="weather-description">
+                            {currentWeather.weather[0].description}
+                        </h4>  
                     </div>
-                    }
-                </div>
-            }
+                    </div>
+                : null 
+                }
+            </div>
         </div>
     )
 }
