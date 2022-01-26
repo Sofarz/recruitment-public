@@ -11,14 +11,18 @@ const Weather = () => {
         e.preventDefault();
 
         if (location.length === 0) {
-            return setErrorMessage(true)
+            return setErrorMessage(true);
         }
-
+        
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a17480f70f0d4368ad0b5eabd0e37b66`)
         .then(response => response.json())
         .then(json => {
-            setCurrentWeather(json);
-            setErrorMessage(false);
+            if (json.cod !== 200) {
+                throw new Error ()
+            } else {
+                setCurrentWeather(json);
+                setErrorMessage(false);
+            }     
         })
         .catch(() => {
             setErrorMessage(true);
