@@ -8,7 +8,7 @@ const SearchResult = ({ currentWeather }) => {
             <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
             <div className="icon-description-container">
                 <img 
-                    src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
+                    src={`http://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`} 
                     alt='weather icon' 
                 />
                 <h4 className="weather-description">
