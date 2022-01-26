@@ -14,7 +14,7 @@ const Weather = () => {
             return setErrorMessage(true);
         }
         
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a17480f70f0d4368ad0b5eabd0e37b66`)
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=3addfde144e16d817dcc3a5e9a46ea59`)
         .then(response => response.json())
         .then(response => {
             if (response.cod !== 200) {
