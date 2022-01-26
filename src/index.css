@@ -78,17 +78,14 @@ code {
 .temperature {
   font-size: 40px;
   margin-top: 30px;
-  color: darkslategrey;
+  color: black;
   font-weight: 400;
 }
 
-.icon-description-container {
-  margin-top: 30px;
-}
-
 .weather-description {
-  margin: 20px;
+  margin: -5px;
   font-weight: 300;
+  font-size: 16px;
 }
 
 .weather-description:first-letter {
