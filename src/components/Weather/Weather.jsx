@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
+import SearchResult from './SearchResult'
 
 const Weather = () => {
 
@@ -14,7 +15,7 @@ const Weather = () => {
             return setErrorMessage(true);
         }
         
-        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=3addfde144e16d817dcc3a5e9a46ea59`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=3addfde144e16d817dcc3a5e9a46ea59`)
         .then(response => response.json())
         .then(response => {
             if (response.cod !== 200) {
@@ -53,26 +54,10 @@ const Weather = () => {
                     Get Weather
                 </button>
             </form>
-            <div>
-                {errorMessage && <ErrorMessage />}
-                {currentWeather.cod === 200 && !errorMessage ? 
-                    <div>
-                        <h1 className="location">{currentWeather.name}</h1>
-                        <p className="date">{new Date().toDateString()}</p>
-                        <div className="temperature">{Math.round(currentWeather.main.temp - 273.25) + '°C'}</div>
-                        <div className="icon-description-container">
-                            <img 
-                                src={`http://openweathermap.org/img/w/${currentWeather.weather[0].icon}.png`} 
-                                alt='weather icon' 
-                            />
-                            <h4 className="weather-description">
-                                {currentWeather.weather[0].description}
-                            </h4>  
-                        </div>
-                    </div>
-                : null 
-                }
-            </div>
+            {errorMessage && <ErrorMessage />}
+            {(currentWeather.cod === 200 && !errorMessage) && 
+                <SearchResult currentWeather={currentWeather} />
+            }
         </div>
     )
 }
